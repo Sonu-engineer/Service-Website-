@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IRCTC - Book Trains, Tours & More | Enhanced Design</title>
+    <link rel="stylesheet" href="style.css">
+ 
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <nav class="container">
+            <div class="logo">IRCTC</div>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#book">Book Ticket</a></li>
+                <li><a href="#pnr">PNR Status</a></li>
+                <li><a href="#tourism">Tourism</a></li>
+                <li><a href="#login">Login</a></li>
+            </ul>
+            <div class="hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Toggle navigation menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <button class="dark-mode-toggle" onclick="toggleDarkMode()" aria-label="Toggle dark mode">🌙 Dark Mode</button>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content container">
+            <h1>Plan Your Journey with IRCTC</h1>
+            <p>Book trains, explore India, and travel hassle-free. Fast, secure, and easy.</p>
+            <form class="search-form" onsubmit="searchTrains(event)" aria-label="Train search form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="from">From Station</label>
+                        <input type="text" id="from" placeholder="e.g., Mumbai (CSMT)" required aria-required="true">
+                    </div>
+                    <div class="form-group">
+                        <label for="to">To Station</label>
+                        <input type="text" id="to" placeholder="e.g., Delhi (NDLS)" required aria-required="true">
+                    </div>
+                    <div class="form-group">
+                        <label for="date">Journey Date</label>
+                        <input type="date" id="date" required aria-required="true">
+                    </div>
+                    <div class="form-group">
+                        <label for="class">Class Preference</label>
+                        <select id="class" aria-required="true">
+                            <option value="">Select Class</option>
+                            <option value="1A">1A - First AC</option>
+                            <option value="2A">2A - Second AC</option>
+                            <option value="3A">3A - Third AC</option>
+                            <option value="SL">SL - Sleeper</option>
+                            <option value="CC">CC - Chair Car</option>
+                        </select>
+                    </div>
+                </div>
+                <button type="submit" class="search-btn">Search Trains</button>
+            </form>
+        </div>
+    </section>
+
+    <section id="search-results">
+        <div class="container">
+            <h2>Available Trains</h2>
+            <div class="results-grid" id="results-grid">
+                <!-- Results will be populated by JS -->
+            </div>
+        </div>
+    </section>
+
+    <section class="quick-links container">
+        <h2 style="text-align: center; margin-bottom: 2rem;">Quick Actions</h2>
+        <div class="links-grid">
+            <div class="link-card" tabindex="0" onclick="quickAction('PNR Status')" onkeypress="if(event.key==='Enter') quickAction('PNR Status')">
+                <h3>Check PNR</h3>
+                <p>Track your ticket status instantly. Enter PNR number.</p>
+            </div>
+            <div class="link-card" tabindex="0" onclick="quickAction('e-Tickets')" onkeypress="if(event.key==='Enter') quickAction('e-Tickets')">
+                <h3>e-Tickets</h3>
+                <p>View, download, or cancel your bookings securely.</p>
+            </div>
+            <div class="link-card" tabindex="0" onclick="quickAction('Tourism')" onkeypress="if(event.key==='Enter') quickAction('Tourism')">
+                <h3>Tourism Packages</h3>
+                <p>Discover curated holiday deals across India.</p>
+            </div>
+            <div class="link-card" tabindex="0" onclick="quickAction('Food')" onkeypress="if(event.key==='Enter') quickAction('Food')">
+                <h3>Order Food</h3>
+                <p>Book meals delivered to your seat on the train.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-links">
+                <a href="#about">About Us</a>
+                <a href="#contact">Contact</a>
+                <a href="#privacy">Privacy Policy</a>
+                <a href="#terms">Terms of Service</a>
+                <a href="#help">Help & FAQ</a>
+            </div>
+            <p>&copy; 2025 IRCTC. Enhanced Concept by ER.SONU SHARMA  For official bookings, visit <a href="https://irctc.co.in" style="color: #007bff;">irctc.co.in</a>.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Mock train data for demo
+        const mockTrains = [
+            { name: 'Rajdhani Express', number: '12301', departure: '18:00', arrival: '06:00', duration: '12h', seats: 'Available' },
+            { name: 'Shatabdi Express', number: '12001', departure: '15:30', arrival: '22:45', duration: '7h 15m', seats: 'Limited' },
+            { name: 'Duronto Express', number: '12259', departure: '20:15', arrival: '08:30', duration: '12h 15m', seats: 'Full' }
+        ];
+
+        // Search Functionality
+        function searchTrains(event) {
+            event.preventDefault();
+            const from = document.getElementById('from').value;
+            const to = document.getElementById('to').value;
+            const resultsGrid = document.getElementById('results-grid');
+            const resultsSection = document.getElementById('search-results');
+
+            // Simulate API delay
+            setTimeout(() => {
+                resultsGrid.innerHTML = '';
+                mockTrains.forEach(train => {
+                    const result = document.createElement('div');
+                    result.className = 'train-result';
+                    result.innerHTML = `
+                        <h4>${train.name} (${train.number})</h4>
+                        <p><strong>From:</strong> ${from} | Dep: ${train.departure}</p>
+                        <p><strong>To:</strong> ${to} | Arr: ${train.arrival}</p>
+                        <p><strong>Duration:</strong> ${train.duration} | <strong>Seats:</strong> ${train.seats}</p>
+                        <button onclick="bookTrain('${train.number}')" style="background: #28a745; color: white; border: none; padding: 0.5rem 1rem; border-radius: 5px; cursor: pointer;">Book Now</button>
+                    `;
+                    resultsGrid.appendChild(result);
+                });
+                resultsSection.style.display = 'block';
+                resultsSection.scrollIntoView({ behavior: 'smooth' });
+            }, 1000);
+        }
+
+        function bookTrain(number) {
+            alert(`Redirecting to book train ${number}... (Mock booking flow)`);
+        }
+
+        function quickAction(action) {
+            alert(`Redirecting to ${action} page... (In a real site, this would navigate to the feature)`);
+        }
+
+        // Mobile Menu Toggle
+        function toggleMenu() {
+            const navLinks = document.getElementById('nav-links');
+            navLinks.classList.toggle('active');
+            const hamburger = document.getElementById('hamburger');
+            hamburger.classList.toggle('active'); // Optional: Animate hamburger
+        }
+
+        // Dark Mode Toggle
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            const btn = document.querySelector('.dark-mode-toggle');
+            btn.textContent = document.body.classList.contains('dark-mode') ? '☀
