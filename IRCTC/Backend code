@@ -1,0 +1,53 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8" import="java.sql.*"%>
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Booking</title>
+</head>
+<body>
+
+<%
+try {
+
+    String From_Station = request.getParameter("From_Station");
+    String To_Station = request.getParameter("To_Station");
+    String Journey_Date = request.getParameter("Journey_Date");
+    String Class_Preference = request.getParameter("Class_Preference");
+
+    Class.forName("com.mysql.cj.jdbc.Driver");
+
+    Connection con = DriverManager.getConnection(
+            "jdbc:mysql://localhost:3306/irctc",
+            "root",
+            "@Sonu2005");
+
+    PreparedStatement ps = con.prepareStatement(
+            "INSERT INTO booking (From_Station, To_Station, Journey_Date, Class_Preference) VALUES (?, ?, ?, ?)");
+
+    ps.setString(1, From_Station);
+    ps.setString(2, To_Station);
+    ps.setString(3, Journey_Date);
+    ps.setString(4, Class_Preference);
+
+    int i = ps.executeUpdate();
+
+    ps.close();
+    con.close();
+
+    if (i > 0) {
+        response.sendRedirect("index.jsp");
+    } else {
+        out.println("<h2>Data Not Saved</h2>");
+    }
+
+} catch (Exception e) {
+    out.println("<h3>Error: " + e.getMessage() + "</h3>");
+    e.printStackTrace();
+}
+%>
+
+</body>
+</html>
