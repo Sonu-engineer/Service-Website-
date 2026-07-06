@@ -1,21 +1,334 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IRCTC - Book Trains, Tours & More | Enhanced Design</title>
-    <link rel="stylesheet" href="style.css">
- 
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+<meta charset="UTF-8">
+<title>https://www.irctc.co.in/</title>
+<style>
+ * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 2rem;
+            color: rgb(104, 40, 9);
+            background-image: url("imag1.jpeg");
+            background-size: cover;
+            background-attachment: fixed;
+            /* background-color: #f8f9fa;
+            transition: background-color 0.3s, color 0.3s; */
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #127122, #17d3cd);
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: opacity 0.3s;
+        }
+        .nav-links a:hover, .nav-links a:focus {
+            opacity: 0.8;
+            outline: 2px solid #fff;
+        }
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 4px;
+        }
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: white;
+            transition: 0.3s;
+        }
+        .dark-mode-toggle {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .dark-mode-toggle:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        /* Hero Section: Train Booking Search */
+        .hero {
+            background: url('https://via.placeholder.com/1200x400/007bff/ffffff?text=Explore+India+by+Rail') no-repeat center/cover;
+            color: white;
+            text-align: center;
+            padding: 4rem 0;
+            position: relative;
+            animation: fadeIn 1s ease-in;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.4);
+        }
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+        .search-form {
+            background: white;
+            border-radius: 10px;
+            padding: 2rem;
+            margin: 2rem auto;
+            max-width: 800px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            animation: slideUp 0.8s ease-out;
+        }
+        @keyframes slideUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .form-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+@media (max-width: 768px) {
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+}
+        
+        
+        .form-group label {
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+            color: #51c933;
+        }
+        .form-group input, .form-group select {
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        .form-group input:focus, .form-group select:focus {
+            border-color: #00ff4c;
+            outline: none;
+        }
+        .search-btn {
+            background: #11c267;
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 5px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            width: 100%;
+            transition: background 0.3s, transform 0.2s;
+        }
+        .search-btn:hover, .search-btn:focus {
+            /* background: #0056b3; */
+             background: linear-gradient(135deg, #13a088, #09d227);
+            transform: scale(1.02);
+        }
+
+        /* Search Results (Hidden by Default) */
+        #search-results {
+            display: none;
+            padding: 2rem 0;
+            background: #f8f9fa;
+        }
+        .results-grid {
+            display: grid;
+            gap: 1rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .train-result {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            border-left: 4px solid #007bff;
+            animation: fadeIn 0.5s ease-in;
+        }
+        .train-result h4 {
+            color: #00ff2a;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Quick Links Section */
+        .quick-links {
+            padding: 3rem 0;
+            /* background: rgb(9, 120, 92); */
+            background: transparent;
+        }
+        .links-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            text-align: center;
+        }
+        .link-card {
+            padding: 2rem;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+        .link-card:hover, .link-card:focus {
+            transform: translateY(-5px);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            outline: 2px solid #007bff;
+        }
+        .link-card h3 {
+            color: #00ff48;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Footer */
+        footer {
+             background:
+              linear-gradient(135deg, #127122, #0e8dcd, #9b18d7);
+            color: white;
+            text-align: center;
+            padding: 2rem 0;
+        }
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+        .footer-links a {
+            color: #bdb2ad;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .footer-links a:hover, .footer-links a:focus {
+            color: white;
+        }
+
+        /* Dark Mode */
+        body.dark-mode {
+            background-color: #121212;
+            color: #e0e0e0;
+        }
+        body.dark-mode header {
+            background: linear-gradient(135deg, #1e3a8a, #1e40af);
+        }
+        body.dark-mode .search-form, body.dark-mode .train-result, body.dark-mode .link-card {
+            background: #333;
+            color: #e0e0e0;
+            border-color: #555;
+        }
+        body.dark-mode .form-group input, body.dark-mode .form-group select {
+            background: #444;
+            color: #e0e0e0;
+            border-color: #555;
+        }
+        body.dark-mode .quick-links {
+            background: #1393a9;
+        }
+        body.dark-mode #search-results {
+            background: #1a1a1a;
+        }
+        body.dark-mode .link-card {
+            border-color: #444;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: #007bff;
+                flex-direction: column;
+                padding: 1rem;
+                gap: 1rem;
+            }
+            .nav-links.active {
+                display: flex;
+            }
+            .hamburger {
+                display: flex;
+            }
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            .links-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .footer-links {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+</style>
 </head>
+
 <body>
-        <form action="index1.jsp">
+    <form action="index1.jsp" method="post">
     <header>
         <nav class="container">
             <div class="logo">IRCTC</div>
             <ul class="nav-links" id="nav-links">
                 <li><a href="#home">Home</a></li>
-                <li><a href="#book">Book Ticket</a></li>
+                <li><a href="http://localhost:8080/IRCTCwebpage/index2.jsp">Book Ticket</a></li>
                 <li><a href="#pnr">PNR Status</a></li>
                 <li><a href="#tourism">Tourism</a></li>
                 <li><a href="#login">Login</a></li>
@@ -33,23 +346,60 @@
         <div class="hero-content container">
             <h1>Plan Your Journey with IRCTC</h1>
             <p>Book trains, explore India, and travel hassle-free. Fast, secure, and easy.</p>
-            <form class="search-form" onsubmit="searchTrains(event)" aria-label="Train search form">
+            <form class="search-form" aria-label="Train search form">
                 <div class="form-row">
+                
+                
+                <div class="form-group">
+    <label for="passengerName">Passenger Name</label>
+    <input type="text" id="passengerName"
+           name="Passenger_Name"
+           placeholder="Enter Passenger Name"
+           required>
+</div>
+
+<div class="form-group">
+    <label for="age">Age</label>
+    <input type="number" id="age"
+           name="Age"
+           min="1"
+           max="120"
+           placeholder="Enter Age"
+           required>
+</div>
+
+<div class="form-group">
+    <label for="gender">Gender</label>
+    <select id="gender" name="Gender" required>
+        <option value="">Select Gender</option>
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+        <option value="Other">Other</option>
+    </select>
+</div>
+
+<div class="form-group">
+    <label for="trainNo">Train No</label>
+    <input type="text" id="trainNo"
+           name="Train_No"
+           placeholder="Enter Train Number"
+           required>
+</div>
                     <div class="form-group">
                         <label for="from">From Station</label>
-                        <input type="text" id="from" placeholder="e.g., Mumbai (CSMT)" required aria-required="true">
+                        <input type="text" id="from" placeholder="e.g., Mumbai (CSMT)" required aria-required="true" name="From_Station">
                     </div>
                     <div class="form-group">
                         <label for="to">To Station</label>
-                        <input type="text" id="to" placeholder="e.g., Delhi (NDLS)" required aria-required="true">
+                        <input type="text" id="to" placeholder="e.g., Delhi (NDLS)" required aria-required="true" name="To_Station">
                     </div>
                     <div class="form-group">
                         <label for="date">Journey Date</label>
-                        <input type="date" id="date" required aria-required="true">
+                        <input type="date" id="date" required aria-required="true" name="Journey_Date">
                     </div>
                     <div class="form-group">
                         <label for="class">Class Preference</label>
-                        <select id="class" aria-required="true">
+                        <select id="class" aria-required="true" name="Class_Preference">
                             <option value="">Select Class</option>
                             <option value="1A">1A - First AC</option>
                             <option value="2A">2A - Second AC</option>
@@ -106,63 +456,7 @@
             </div>
             <p>&copy; 2025 IRCTC. Enhanced Concept by ER.SONU SHARMA  For official bookings, visit <a href="https://irctc.co.in" style="color: #007bff;">irctc.co.in</a>.</p>
         </div>
+        </form>
     </footer>
-            </form>
-
-    <script>
-        // Mock train data for demo
-        const mockTrains = [
-            { name: 'Rajdhani Express', number: '12301', departure: '18:00', arrival: '06:00', duration: '12h', seats: 'Available' },
-            { name: 'Shatabdi Express', number: '12001', departure: '15:30', arrival: '22:45', duration: '7h 15m', seats: 'Limited' },
-            { name: 'Duronto Express', number: '12259', departure: '20:15', arrival: '08:30', duration: '12h 15m', seats: 'Full' }
-        ];
-
-        // Search Functionality
-        function searchTrains(event) {
-            event.preventDefault();
-            const from = document.getElementById('from').value;
-            const to = document.getElementById('to').value;
-            const resultsGrid = document.getElementById('results-grid');
-            const resultsSection = document.getElementById('search-results');
-
-            // Simulate API delay
-            setTimeout(() => {
-                resultsGrid.innerHTML = '';
-                mockTrains.forEach(train => {
-                    const result = document.createElement('div');
-                    result.className = 'train-result';
-                    result.innerHTML = `
-                        <h4>${train.name} (${train.number})</h4>
-                        <p><strong>From:</strong> ${from} | Dep: ${train.departure}</p>
-                        <p><strong>To:</strong> ${to} | Arr: ${train.arrival}</p>
-                        <p><strong>Duration:</strong> ${train.duration} | <strong>Seats:</strong> ${train.seats}</p>
-                        <button onclick="bookTrain('${train.number}')" style="background: #28a745; color: white; border: none; padding: 0.5rem 1rem; border-radius: 5px; cursor: pointer;">Book Now</button>
-                    `;
-                    resultsGrid.appendChild(result);
-                });
-                resultsSection.style.display = 'block';
-                resultsSection.scrollIntoView({ behavior: 'smooth' });
-            }, 1000);
-        }
-
-        function bookTrain(number) {
-            alert(`Redirecting to book train ${number}... (Mock booking flow)`);
-        }
-
-        function quickAction(action) {
-            alert(`Redirecting to ${action} page... (In a real site, this would navigate to the feature)`);
-        }
-
-        // Mobile Menu Toggle
-        function toggleMenu() {
-            const navLinks = document.getElementById('nav-links');
-            navLinks.classList.toggle('active');
-            const hamburger = document.getElementById('hamburger');
-            hamburger.classList.toggle('active'); // Optional: Animate hamburger
-        }
-
-        // Dark Mode Toggle
-        function toggleDarkMode() {
-            document.body.classList.toggle('dark-mode');
-            const btn = document.querySelector('.dark-mode-toggle');
-            btn.textContent = document.body.classList.contains('dark-mode') ? '☀
+</body>
+</html>
