@@ -1,0 +1,98 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+
+<%@ page import="java.sql.*" %>
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Booking List</title>
+
+<style>
+body{
+    font-family: Arial, sans-serif;
+    background:#f4f4f4;
+    margin:30px;
+}
+
+h1{
+    text-align:center;
+    color:#003366;
+}
+
+table{
+    width:100%;
+    border-collapse:collapse;
+   /* background:#fff;*/
+   backgroung:#00ff2a;
+    margin:auto;
+}
+
+th{
+    background:#003366;
+    color:#fff;
+    padding:12px;
+}
+
+td{
+    padding:10px;
+    text-align:center;
+}
+
+tr:nth-child(even){
+    background:#f2f2f2;
+}
+
+table,th,td{
+    border:1px solid #000;
+}
+</style>
+
+</head>
+<body>
+
+<h1>Railway Ticket Booking Details</h1>
+
+<table border="">
+
+<tr>
+    <th>Passenger Name</th>
+    <th>Age</th>
+    <th>Gender</th>
+    <th>Train No</th>
+    <th>From Station</th>
+    <th>To Station</th>
+    <th>Journey Date</th>
+    <th>Class Preference</th>
+</tr>
+
+
+<%try{
+Class.forName("com.mysql.cj.jdbc.Driver");
+Connection con=DriverManager.getConnection(
+		 "jdbc:mysql://localhost:3306/irctc","root","@Sonu2005");
+Statement st=con.createStatement();
+ResultSet rs=st.executeQuery("select*from booking");
+
+ while(rs.next()){
+%>
+<tr>
+    <td><%= rs.getString("Passenger_Name") %></td>
+    <td><%= rs.getInt("Age") %></td>
+    <td><%= rs.getString("Gender") %></td>
+    <td><%= rs.getString("Trina_No") %></td>
+    <td><%= rs.getString("From_Station") %></td>
+    <td><%= rs.getString("To_Station") %></td>
+    <td><%= rs.getString("Journey_Date") %></td>
+    <td><%= rs.getString("Class_Preference") %></td>
+</tr>
+<%
+ }
+}catch(Exception e){
+	System.out.print(e);
+}
+%>
+</table>
+</body>
+</html>
