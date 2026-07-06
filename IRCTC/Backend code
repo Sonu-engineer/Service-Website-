@@ -16,6 +16,10 @@ try {
     String To_Station = request.getParameter("To_Station");
     String Journey_Date = request.getParameter("Journey_Date");
     String Class_Preference = request.getParameter("Class_Preference");
+    String Passenger_Name = request.getParameter("Passenger_Name");
+    int Age = Integer.parseInt(request.getParameter("Age"));
+    String Gender = request.getParameter("Gender");
+    String Train_No = request.getParameter("Train_No");
 
     Class.forName("com.mysql.cj.jdbc.Driver");
 
@@ -25,12 +29,17 @@ try {
             "@Sonu2005");
 
     PreparedStatement ps = con.prepareStatement(
-            "INSERT INTO booking (From_Station, To_Station, Journey_Date, Class_Preference) VALUES (?, ?, ?, ?)");
+            "INSERT INTO booking  VALUES (?, ?, ?, ?,?, ?, ?, ?)");
 
     ps.setString(1, From_Station);
     ps.setString(2, To_Station);
     ps.setString(3, Journey_Date);
     ps.setString(4, Class_Preference);
+    ps.setString(5,Passenger_Name);
+    ps.setInt(6, Age);
+    ps.setString(7,Gender);
+    ps.setString(8,Train_No);
+    
 
     int i = ps.executeUpdate();
 
@@ -38,7 +47,8 @@ try {
     con.close();
 
     if (i > 0) {
-        response.sendRedirect("index.jsp");
+       // response.sendRedirect("index.jsp");
+        response.sendRedirect("index2.jsp");
     } else {
         out.println("<h2>Data Not Saved</h2>");
     }
