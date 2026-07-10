@@ -1,0 +1,152 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+
+<%@ page import="java.sql.*" %>
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Booking List</title>
+
+<style>
+/* Google Font */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+    background:linear-gradient(135deg,#0f172a,#1e3a8a,#2563eb);
+    min-height:100vh;
+    padding:40px;
+}
+h1{
+color:#799edd;}
+
+/* Table Design */
+table{
+    width:95%;
+    margin:30px auto;
+    border-collapse:collapse;
+    background:#ffffff;
+    border-radius:18px;
+    overflow:hidden;
+    box-shadow:0 15px 35px rgba(0,0,0,0.25);
+}
+
+/* Header */
+table th{
+    background:linear-gradient(90deg,#ff6a00,#ee0979);
+    color:#fff;
+    padding:18px;
+    font-size:15px;
+    font-weight:600;
+    text-transform:uppercase;
+    letter-spacing:1px;
+    border:none;
+}
+
+/* Data Cells */
+table td{
+    padding:16px;
+    text-align:center;
+    font-size:15px;
+    color:#333;
+    border-bottom:1px solid #e5e7eb;
+    transition:all 0.3s ease;
+}
+
+/* Alternate Row Color */
+table tr:nth-child(even){
+    background:#f8fafc;
+}
+
+/* Hover Effect */
+table tr:hover{
+    background:#dbeafe;
+    cursor:pointer;
+    transform:scale(1.01);
+}
+
+/* Rounded Corners */
+table th:first-child{
+    border-top-left-radius:18px;
+}
+
+table th:last-child{
+    border-top-right-radius:18px;
+}
+
+/* Last Row */
+table tr:last-child td{
+    border-bottom:none;
+}
+
+/* Responsive */
+@media (max-width:768px){
+
+table{
+    width:100%;
+    font-size:13px;
+}
+
+table th,
+table td{
+    padding:10px;
+}
+
+}
+</style>
+
+</head>
+<body>
+
+<h1>Railway Ticket Booking Details</h1>
+
+<table border="">
+
+<tr>
+    <th>Passenger Name</th>
+    <th>Age</th>
+    <th>Gender</th>
+    <th>Train No</th>
+    <th>From Station</th>
+    <th>To Station</th>
+    <th>Journey Date</th>
+    <th>Class Preference</th>
+</tr>
+
+
+<%try{
+Class.forName("com.mysql.cj.jdbc.Driver");
+Connection con=DriverManager.getConnection(
+		 "jdbc:mysql://localhost:8080/irctc","root","@Sonu2005");
+Statement st=con.createStatement();
+ResultSet rs=st.executeQuery("select*from booking");
+
+ while(rs.next()){
+%>
+<tr>
+    <td><%= rs.getString("Passenger_Name") %></td>
+    <td><%= rs.getInt("Age") %></td>
+    <td><%= rs.getString("Gender") %></td>
+    <td><%= rs.getString("Trina_No") %></td>
+    <td><%= rs.getString("From_Station") %></td>
+    <td><%= rs.getString("To_Station") %></td>
+    <td><%= rs.getString("Journey_Date") %></td>
+    <td><%= rs.getString("Class_Preference") %></td>
+</tr>
+<%
+ }
+}catch(Exception e){
+	System.out.print(e);
+}
+%>
+</table>
+</body>
+</html>
