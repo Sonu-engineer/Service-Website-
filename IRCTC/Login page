@@ -1,0 +1,250 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Loging page</title>
+<!-- Font Awesome -->
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
+<!-- Google Font -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style >
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+body{
+
+    background:url("https://images.unsplash.com/photo-1519677100203-a0e668c92439?auto=format&fit=crop&w=1600&q=80");
+
+    background-size:cover;
+    background-position:center;
+    background-repeat:no-repeat;
+    height:100vh;
+}
+
+.overlay{
+
+    width:100%;
+    height:100vh;
+    background:rgba(0,0,0,.55);
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.login-box{
+
+    width:400px;
+    background:rgba(255,255,255,.15);
+    backdrop-filter:blur(12px);
+
+    border:1px solid rgba(255,255,255,.3);
+
+    border-radius:20px;
+
+    padding:40px;
+
+    color:white;
+
+    box-shadow:0 20px 40px rgba(0,0,0,.4);
+}
+
+.logo{
+
+    text-align:center;
+    margin-bottom:30px;
+}
+
+.logo img{
+
+    width:90px;
+    margin-bottom:15px;
+}
+
+.logo h2{
+
+    font-size:30px;
+    margin-bottom:5px;
+}
+
+.logo p{
+
+    font-size:13px;
+    color:#ddd;
+}
+
+.input-box{
+
+    position:relative;
+    margin:18px 0;
+}
+
+.input-box i{
+
+    position:absolute;
+    left:18px;
+    top:18px;
+
+    color:#0d6efd;
+    font-size:18px;
+}
+
+.input-box input{
+
+    width:100%;
+    padding:15px 15px 15px 50px;
+
+    border:none;
+    outline:none;
+
+    border-radius:40px;
+
+    font-size:15px;
+
+    background:white;
+}
+
+.options{
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    margin:15px 0 25px;
+    font-size:14px;
+}
+
+.options a{
+
+    color:#FFD700;
+    text-decoration:none;
+}
+
+.options a:hover{
+
+    text-decoration:underline;
+}
+
+button{
+
+    width:100%;
+    padding:14px;
+
+    border:none;
+
+    border-radius:40px;
+
+    background:#ff6b00;
+
+    color:white;
+
+    font-size:17px;
+
+    cursor:pointer;
+
+    font-weight:600;
+
+    transition:.4s;
+}
+
+button:hover{
+
+    background:#0d6efd;
+    transform:scale(1.03);
+}
+
+.register{
+
+    text-align:center;
+
+    margin-top:25px;
+
+    font-size:15px;
+}
+
+.register a{
+
+    color:#FFD700;
+
+    text-decoration:none;
+
+    font-weight:600;
+}
+
+.register a:hover{
+
+    text-decoration:underline;
+}
+
+@media(max-width:500px){
+
+.login-box{
+
+    width:90%;
+    padding:30px;
+}
+
+.logo h2{
+
+    font-size:24px;
+}
+
+}
+</style>
+</head>
+<body>
+<form action="loginBackend.jsp">
+<div class="overlay">
+
+    <div class="login-box">
+
+        <div class="logo">
+            <img src="https://seeklogo.com/vector-logo/198785/irctc">
+            <h2>IRCTC Login</h2>
+            <p>Indian Railway Catering & Tourism Corporation</p>
+        </div>
+
+        <form>
+
+            <div class="input-box">
+                <i class="fa-solid fa-user"></i>
+                <input type="text" placeholder="User ID" name="User_ID">
+            </div>
+
+            <div class="input-box">
+                <i class="fa-solid fa-lock"></i>
+                <input type="password" placeholder="Password" name="Password">
+            </div>
+
+            <div class="options">
+                <label>
+                    <input type="checkbox">
+                    Remember Me
+                </label>
+
+                <a href="#">Forgot Password?</a>
+            </div>
+
+            <button>LOGIN</button>
+
+            <div class="register">
+                New User?
+                <a href="#">Register Here</a>
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+</form>
+</body>
+</html>
